@@ -19,10 +19,6 @@ public class Post extends DecoratorPanel{
 	Grid mainGrid;
 	Grid topBar;
 	Grid userBar;
-	
-	public Post(){
-		super();
-	}
 
 	public Post(int postId, User user, String content, Date timeCreated, Date lastUpdated) {
 		super();
@@ -61,7 +57,7 @@ public class Post extends DecoratorPanel{
 		mainGrid.setWidget(1, 1, new InlineHTML("<html>" + content + "<br>Last edited " + lastUpdated + "</html>"));
 		
 		// Add everything to post decorate grid
-		this.setWidth("1000px");
+		this.setWidth("100%");
 		this.setWidget(mainGrid);
 	}
 	

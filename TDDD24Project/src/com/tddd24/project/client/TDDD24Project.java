@@ -181,5 +181,10 @@ public class TDDD24Project implements EntryPoint {
 		
 		RootPanel.get().add(postTable);
 		
+		/** Add Category to root panel for testing TODO: Remove/move to other place*/
+		RootPanel.get().add(new Category(0, "Populära trådar", "Här finns alla de populäraste trådarna. " +
+				"Välj och vraka mellan tusentals roliga och intressanta ämnen!----------------------------" +
+				"-------------------------------------------------------------------------------------"));
+		
 	}
 }
