@@ -28,8 +28,10 @@ local.properties
 # PDT-specific
 .buildpath
 
-# GWT cache?
+# GWT cache - Behövs inte. Byggs automatiskt tror jag // Micke
 gwt-unitCache/
+# GWT output classes? - Samma här. Byggs nog automatiskt.
+war/WEB-INF/classes/
 
 #################
 ## Visual Studio
