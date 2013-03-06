@@ -32,6 +32,8 @@ local.properties
 gwt-unitCache/
 # GWT output classes? - Samma här. Byggs nog automatiskt.
 war/WEB-INF/classes/
+# Borde kunna ta bort allt som är .class-filer
+*.class
 
 #################
 ## Visual Studio

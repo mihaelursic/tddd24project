@@ -62,7 +62,7 @@ public class TDDD24Project implements EntryPoint {
 
 			@Override
 			public void execute() {
-				System.out.println("hej");			
+				System.out.println("hej");			//TODO: Remove sysout
 			}   	
 		};
 		mainMenu.addItem(new MenuItem("Startpage", startpageCommand));
@@ -75,22 +75,18 @@ public class TDDD24Project implements EntryPoint {
 		TextEditor editorDecPanel = new TextEditor();
 		RootPanel.get().add(editorDecPanel);
 
-
 		/** Create a list/grid for posts, users, topics, categories, etc.-----*/
 		User user = new User(0, "Nike", 5, 1337, new Date(1997, 02, 02, 13, 37), new Date(2000, 02, 02, 13, 38));
 		Post post = new Post(1, user, "hello world!!!", new Date(), new Date());
 
 		FlexTable postTable = new FlexTable();
 		postTable.setWidget(0, 0, post);
-		
 
-		
 		RootPanel.get().add(postTable);
 		
 		/** Add Category to root panel for testing TODO: Remove/move to other place*/
 		RootPanel.get().add(new Category(0, "Populära trådar", "Här finns alla de populäraste trådarna. " +
 				"Välj och vraka mellan tusentals roliga och intressanta ämnen!----------------------------" +
 				"-------------------------------------------------------------------------------------"));
-		
 	}
 }
