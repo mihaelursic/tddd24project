@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -16,7 +17,9 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 public class LoginPanel extends DecoratorPanel {
 
-	public LoginPanel(){
+	private static LoginPanel _instance = null;
+	
+	private LoginPanel(){
 		
 	final FlexTable loginTable = new FlexTable();
 	loginTable.setCellSpacing(6);
@@ -36,8 +39,9 @@ public class LoginPanel extends DecoratorPanel {
 		@Override
 		public void onKeyPress(KeyPressEvent event) { // TODO
 			if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER){
-				Window.alert("TODO!\nUsername: "+((TextBox)loginTable.getWidget(1, 1)).getText() +
-						"\nPassword: "+((PasswordTextBox)loginTable.getWidget(2, 1)).getText());
+//				Window.alert("TODO!\n FEEEL Username: "+((TextBox)loginTable.getWidget(1, 1)).getText() +
+//						"\nPassword: "+((PasswordTextBox)loginTable.getWidget(2, 1)).getText());
+				History.newItem("TopicPage");
 			}
 		}
 	};
@@ -64,4 +68,12 @@ public class LoginPanel extends DecoratorPanel {
 	this.setWidget(loginTable);
 	
 	}
+	
+	public static LoginPanel getInstance(){
+		if(_instance == null){
+			_instance = new LoginPanel();
+		}
+		return _instance;
+	}
+	
 }

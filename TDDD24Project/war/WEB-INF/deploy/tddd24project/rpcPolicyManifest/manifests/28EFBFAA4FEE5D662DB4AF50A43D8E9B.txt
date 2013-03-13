@@ -1,0 +1,2 @@
+serviceClass: com.tddd24.project.client.TDDD24ProjectService
+path: 95DD4820B53201A4699B36BCB7EB1B00.gwt.rpc

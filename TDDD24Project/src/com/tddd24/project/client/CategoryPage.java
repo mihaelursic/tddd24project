@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 
-public class CategoryPage extends Grid {
+public class CategoryPage extends Composite {
 
+	private Grid grid;
 	private FlexTable catList;
 
 	/**
@@ -33,10 +35,11 @@ public class CategoryPage extends Grid {
 	public CategoryPage(){
 
 		// Make this CategoryPage to a Grid with 2 rows and 1 column
-		super(2,1);
+//		super(2,1);
+		grid = new Grid(2,1);
 
 		catList = new FlexTable();
-		this.setWidget(0, 0, catList);
+		grid.setWidget(0, 0, catList);
 		
 		// Create Buttons on the bottom to change pages
 		Grid btnGrid = new Grid(1,3);
@@ -59,7 +62,7 @@ public class CategoryPage extends Grid {
 		btnGrid.setWidget(0, 0, prevBtn);
 		btnGrid.setWidget(0, 3, nextBtn);
 		
-		this.setWidget(1, 0, btnGrid);
+		grid.setWidget(1, 0, btnGrid);
 
 	}
 	

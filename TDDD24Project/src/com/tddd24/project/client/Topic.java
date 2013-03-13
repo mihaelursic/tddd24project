@@ -1,12 +1,8 @@
 package com.tddd24.project.client;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
+import java.io.Serializable;
 
-public class Topic extends DecoratorPanel {
+public class Topic implements Serializable{
 
 	int topicId;
 	String subject;
@@ -14,8 +10,10 @@ public class Topic extends DecoratorPanel {
 	int nrOfposts;
 	String categoryName;
 
-	Grid mainGrid;
-
+	private Topic(){
+		
+	}
+	
 	public Topic(int topicId, String subject, String userName, int nrOfposts,
 			String categoryName) {
 		super();
@@ -25,32 +23,75 @@ public class Topic extends DecoratorPanel {
 		this.nrOfposts = nrOfposts;
 		this.categoryName = categoryName;
 
-		// Create grid
-		mainGrid = new Grid(1,2);
-		
-		// Create and add labels for info
-		Label subjectLabel = new Label(subject);
-
-		subjectLabel.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				// TODO: Fire event to open the thread page?
-				
-			}
-		});
-
-		mainGrid.setWidget(0, 0, subjectLabel);
-		
-		Grid topicInfoGrid = new Grid(2,1);
-		topicInfoGrid.setWidget(0, 0, new Label("Created by: "+userName));
-		topicInfoGrid.setWidget(1, 0, new Label("Nr of posts in thread: "+nrOfposts));
-		
-		mainGrid.setWidget(0, 1, topicInfoGrid);
-
 	}
 
+	/**
+	 * @return the topicId
+	 */
+	public int getTopicId() {
+		return topicId;
+	}
 
+	/**
+	 * @param topicId the topicId to set
+	 */
+	public void setTopicId(int topicId) {
+		this.topicId = topicId;
+	}
 
+	/**
+	 * @return the subject
+	 */
+	public String getSubject() {
+		return subject;
+	}
+
+	/**
+	 * @param subject the subject to set
+	 */
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @return the nrOfposts
+	 */
+	public int getNrOfposts() {
+		return nrOfposts;
+	}
+
+	/**
+	 * @param nrOfposts the nrOfposts to set
+	 */
+	public void setNrOfposts(int nrOfposts) {
+		this.nrOfposts = nrOfposts;
+	}
+
+	/**
+	 * @return the categoryName
+	 */
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	/**
+	 * @param categoryName the categoryName to set
+	 */
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 }

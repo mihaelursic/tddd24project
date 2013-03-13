@@ -12,4 +12,15 @@
     <welcome-file>TDDD24Project.html</welcome-file>
   </welcome-file-list>
 
+  <!-- Servlets -->
+    <servlet>
+    <servlet-name>TDDD24ProjectServiceImpl</servlet-name>
+    <servlet-class>com.tddd24.project.server.TDDD24ProjectServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TDDD24ProjectServiceImpl</servlet-name>
+    <url-pattern>/tddd24project/TDDD24Service</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
