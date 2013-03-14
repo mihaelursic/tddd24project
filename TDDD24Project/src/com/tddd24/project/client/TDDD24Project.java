@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class TDDD24Project implements EntryPoint {
 
+	public static int USER_RANK = -1;
+	
 	/**
 	 * This is the entry point method.
 	 */

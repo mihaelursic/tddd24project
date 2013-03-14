@@ -9,5 +9,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface TDDD24ProjectService extends RemoteService {
 
 	public ArrayList<Topic> getAllTopics();
+
+	ArrayList<Post> getPostsFromTopic(int topicId);
+
+	int checkLogin(String userName, String password);
 	
 }

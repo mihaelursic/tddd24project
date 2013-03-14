@@ -3,6 +3,7 @@ package com.tddd24.project.server;
 import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.tddd24.project.client.Post;
 import com.tddd24.project.client.TDDD24ProjectService;
 import com.tddd24.project.client.Topic;
 
@@ -17,6 +18,18 @@ public class TDDD24ProjectServiceImpl extends RemoteServiceServlet implements TD
 //		System.out.println("Topic: "+topic.getSubject());
 		
 		return DataManager.getAllTopics();
+	}
+
+	@Override
+	public ArrayList<Post> getPostsFromTopic(int topicId) {
+		return DataManager.getPostsFromTopic(topicId);
+	}
+
+	@Override
+	public int checkLogin(String userName, String password) {
+		
+		return DataManager.checkLogin(userName, password);
+		
 	}
 	
 }

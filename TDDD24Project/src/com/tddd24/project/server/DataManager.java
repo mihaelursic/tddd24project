@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.tddd24.project.client.Post;
 import com.tddd24.project.client.Topic;
+import com.tddd24.project.client.User;
 
 public class DataManager {
 
@@ -63,6 +65,81 @@ public class DataManager {
 				}
 			}
 		}	
+	}
+
+	public static ArrayList<Post> getPostsFromTopic(int topicId) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			final ResultSet resultSet = connection
+					.prepareStatement(
+							"SELECT PostNr, TimeCreated, LastUpdated, Content, UserId" +
+							" FROM post WHERE TopicId = "+topicId)
+							.executeQuery();
+
+			ArrayList<Post> list = new ArrayList<Post>();
+
+			while (resultSet.next()) {
+				ResultSet set = connection.prepareStatement(
+						"SELECT * FROM user WHERE id = "+resultSet.getInt(5)).executeQuery();
+				User user = new User();
+				if (set.next()){
+					user.setId(set.getInt("id"));
+					user.setBanned(set.getDate("Banned"));
+					user.setName(set.getString("Name"));
+					user.setNrOfPosts(set.getInt("NrOfPosts"));
+					user.setRank(set.getInt("Rank"));
+					user.setRegistered(set.getDate("Registered"));
+				}
+				Post post = new Post(resultSet.getInt(1), user, resultSet.getString(4),
+						resultSet.getDate(2), resultSet.getDate(3));
+				list.add(post);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+
+	public static int checkLogin(String userName, String password) {
+		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			final ResultSet resultSet = connection
+					.prepareStatement(
+							"SELECT Rank" +
+							" FROM user WHERE Name = '"+userName+"' AND Password = '"+password+"'")
+							.executeQuery();
+
+			if (resultSet.next()) {
+				return resultSet.getInt(1);
+			}
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -2;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (final SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 	
 	

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
-
+@RemoteServiceRelativePath("TopicPage")
 public class TopicPage extends Composite {
 
 	private static TopicPage _instance = null;
@@ -113,21 +115,20 @@ public class TopicPage extends Composite {
 
 		for(int i = 0; i<topics.size(); i++){
 			
-			Topic topic = topics.get(i);
+			final Topic topic = topics.get(i);
 			
 			// Create grid
 			Grid mainGrid = new Grid(1,2);
 			
 			// Create and add labels for info
-			Label subjectLabel = new Label(topic.getSubject());
+			Button subjectLabel = new Button(topic.getSubject());
 
 			subjectLabel.addClickHandler(new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					// TODO Auto-generated method stub
-					// TODO: Fire event to open the thread page?
-					
+					Thread.CURRENTLY_SHOWN_TOPIC = topic.getTopicId();
+					History.newItem("Thread");
 				}
 			});
 
@@ -140,6 +141,7 @@ public class TopicPage extends Composite {
 			mainGrid.setWidget(0, 1, topicInfoGrid);
 						
 			topicList.setWidget(i, 0, mainGrid);
+			topicList.setWidget(i, 1, new Label("#"+topic.getTopicId()));
 		}
 
 	}

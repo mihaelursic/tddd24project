@@ -1,32 +1,21 @@
 package com.tddd24.project.client;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.Label;
-
-public class Post extends DecoratorPanel{
+public class Post implements Serializable{
 	
 	int postId;
 	User user;
 	String content;
 	Date timeCreated;
 	Date lastUpdated;	
-	
-	Grid mainGrid;
-	Grid topBar;
-	Grid userBar;
 
-	public Post(int postId, User user, String content, Date timeCreated, Date lastUpdated) {
-		super();
+	private Post(){
 		
-		// Create grids
-		mainGrid = new Grid(2,2);
-		topBar = new Grid(1,3);
-		userBar = new Grid(4,2);
+	}
+	
+	public Post(int postId, User user, String content, Date timeCreated, Date lastUpdated) {
 		
 		// Instantiate
 		this.postId = postId;
@@ -35,30 +24,77 @@ public class Post extends DecoratorPanel{
 		this.timeCreated = timeCreated;
 		this.lastUpdated = lastUpdated;
 		
-		// Create components and fill topBar
-		Button reportBtn = new Button("Report");
-		Button qouteBtn = new Button("Qoute");
 		
-		topBar.setWidget(0, 0, new Label("#"+this.postId));
-		topBar.setWidget(0, 1, reportBtn);
-		topBar.setWidget(0, 2, qouteBtn);
-		
-		// Create components and fill userBar
-		userBar.setWidget(0, 0, new Label(user.getName()));
-		userBar.setWidget(1, 0, new Label(""+user.getRank())); //TODO: Fixa ranksystem (enum?)
-		userBar.setWidget(2, 0, new Label(user.getNrOfPosts()+" posts"));
-		userBar.setWidget(3, 0, new Label("Registered: "+user.getRegistered().toString()));
-		
-		// Assemble mainGrid
-		Label timeLabel = new Label(timeCreated.toString());
-		mainGrid.setWidget(0, 0, timeLabel);
-		mainGrid.setWidget(0, 1, topBar);
-		mainGrid.setWidget(1, 0, userBar);
-		mainGrid.setWidget(1, 1, new InlineHTML("<html>" + content + "<br>Last edited " + lastUpdated + "</html>"));
-		
-		// Add everything to post decorate grid
-		this.setWidth("100%");
-		this.setWidget(mainGrid);
+	}
+
+	/**
+	 * @return the postId
+	 */
+	public int getPostId() {
+		return postId;
+	}
+
+	/**
+	 * @param postId the postId to set
+	 */
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	/**
+	 * @return the timeCreated
+	 */
+	public Date getTimeCreated() {
+		return timeCreated;
+	}
+
+	/**
+	 * @param timeCreated the timeCreated to set
+	 */
+	public void setTimeCreated(Date timeCreated) {
+		this.timeCreated = timeCreated;
+	}
+
+	/**
+	 * @return the lastUpdated
+	 */
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	/**
+	 * @param lastUpdated the lastUpdated to set
+	 */
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 }
