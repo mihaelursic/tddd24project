@@ -3,6 +3,8 @@ package com.tddd24.project.client;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -24,6 +26,10 @@ public class LoginPanel extends DecoratorPanel {
 	private static TDDD24ProjectServiceAsync TDDD24ProjectSvc = GWT.create(TDDD24ProjectService.class);
 	private static LoginPanel _instance = null;
 
+	// Add input forms
+	final TextBox userName = new TextBox();
+	final PasswordTextBox password = new PasswordTextBox();
+	
 	private LoginPanel(){
 
 		final FlexTable loginTable = new FlexTable();
@@ -36,23 +42,12 @@ public class LoginPanel extends DecoratorPanel {
 		cellFormatter.setHorizontalAlignment(
 				0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
-		// Add input forms
-		final TextBox userName = new TextBox();
-		final PasswordTextBox password = new PasswordTextBox();
 		KeyPressHandler loginHandler = new KeyPressHandler() {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER){
 					login(userName.getText(), password.getText());
-					System.out.println("rank: "+TDDD24Project.USER_RANK);
-					if(TDDD24Project.USER_RANK != -1){
-
-						userName.setText("");
-						password.setText("");
-						History.newItem("TopicPage");
-
-					}
 				}
 			}
 		};
@@ -63,6 +58,7 @@ public class LoginPanel extends DecoratorPanel {
 		loginTable.setWidget(1, 1, userName);
 		loginTable.setHTML(2, 0, "Password");
 		loginTable.setWidget(2, 1, password);
+		
 
 		// Add login button
 		Button loginBtn = new Button("Log in", new ClickHandler() {
@@ -70,13 +66,6 @@ public class LoginPanel extends DecoratorPanel {
 			@Override
 			public void onClick(ClickEvent event) { // TODO
 				login(userName.getText(), password.getText());
-				if(TDDD24Project.USER_RANK != -1){
-
-					userName.setText("");
-					password.setText("");
-
-
-				}
 			}
 		});
 		loginTable.setWidget(3, 1, loginBtn);
@@ -90,10 +79,15 @@ public class LoginPanel extends DecoratorPanel {
 		if(_instance == null){
 			_instance = new LoginPanel();
 		}
+//		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+//	        public void execute () {
+//	            _instance.userName.setFocus(true);
+//	        }
+//	   });
 		return _instance;
 	}
 
-	private void login(String userName, String password){
+	private void login(String uName, String pw){
 		// Initialize the service proxy.
 		if (TDDD24ProjectSvc == null) {
 			TDDD24ProjectSvc = GWT.create(TDDD24ProjectService.class);
@@ -104,31 +98,36 @@ public class LoginPanel extends DecoratorPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
+				Window.alert("Login failed. Check your Internet connection and try again");
 			}
 
 			@Override
 			public void onSuccess(Integer result) {
 
-				int rank = (int)result;
-				TDDD24Project.USER_RANK = rank;
+				TDDD24Project.USER_RANK = result;
 
-				switch (rank) {
+				switch (result) {
 				case -1 :
+					TDDD24Project.USER_RANK = -1;
 					Window.alert("Login failed. Check your user name and password");
 					break;
 				case 1 :
-//					History.newItem("TopicPage");
+					userName.setText("");
+					password.setText("");
+					TDDD24Project.USER_RANK = 1;
+					History.newItem("TopicPage");
 					break;
 				case 2 :
-//					History.newItem("TopicPage");
+					userName.setText("");
+					password.setText("");
+					TDDD24Project.USER_RANK = 2;
+					History.newItem("TopicPage");
 					break;
 				}
 			}
 		};
 
-		TDDD24ProjectSvc.checkLogin(userName, password, callback);
+		TDDD24ProjectSvc.checkLogin(uName, pw, callback);
 
 	}
 

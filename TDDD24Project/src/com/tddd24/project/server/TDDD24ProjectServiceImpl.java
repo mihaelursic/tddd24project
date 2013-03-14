@@ -27,7 +27,6 @@ public class TDDD24ProjectServiceImpl extends RemoteServiceServlet implements TD
 
 	@Override
 	public int checkLogin(String userName, String password) {
-		
 		return DataManager.checkLogin(userName, password);
 		
 	}
