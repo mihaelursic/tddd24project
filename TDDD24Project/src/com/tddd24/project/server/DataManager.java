@@ -187,8 +187,44 @@ public class DataManager {
 		}
 
 	}
+	
+	public static void banUser(int userId) {
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"UPDATE user SET Banned = "+ new Date(System.currentTimeMillis()+604800000) +" WHERE id = "+ userId);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-
-
+	public static void removePost(int PostNr){
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"UPDATE post SET Content = '' WHERE PostNr = "+ PostNr);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void removeTopic(int id){
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"DELETE FROM topic WHERE id = "+ id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

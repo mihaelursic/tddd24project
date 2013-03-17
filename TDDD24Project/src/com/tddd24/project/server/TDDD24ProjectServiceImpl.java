@@ -40,4 +40,15 @@ public class TDDD24ProjectServiceImpl extends RemoteServiceServlet implements TD
 		return false;
 	}
 	
+	public void banUser(int userId){
+		DataManager.banUser(userId);
+	}
+	
+	public void removePost(int PostNr){
+		DataManager.removePost(PostNr);
+	}
+	
+	public void removeTopic(int id){
+		DataManager.removeTopic(id);
+	}
 }
