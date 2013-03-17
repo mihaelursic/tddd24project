@@ -11,6 +11,8 @@ public interface TDDD24ProjectServiceAsync {
 	void getPostsFromTopic(int topicId,
 			AsyncCallback<ArrayList<Post>> callback);
 
-	void checkLogin(String userName, String password, AsyncCallback<Integer> callback);
+	void checkLogin(String userName, String password, AsyncCallback<ArrayList<Integer>> callback);
+
+	void addPostInThread(String html, int topicId, int userId, AsyncCallback<Boolean> callback);
 
 }

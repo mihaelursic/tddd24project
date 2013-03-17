@@ -12,6 +12,8 @@ public interface TDDD24ProjectService extends RemoteService {
 
 	ArrayList<Post> getPostsFromTopic(int topicId);
 
-	int checkLogin(String userName, String password);
+	ArrayList<Integer> checkLogin(String userName, String password);
+
+	boolean addPostInThread(String html, int topicId, int userId);
 	
 }

@@ -1,7 +1,9 @@
 package com.tddd24.project.server;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,9 +30,9 @@ public class DataManager {
 			throw new AssertionError(e);
 		}
 	}
-	
+
 	public static ArrayList<Topic> getAllTopics(){
-		
+
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -75,8 +77,8 @@ public class DataManager {
 			final ResultSet resultSet = connection
 					.prepareStatement(
 							"SELECT PostNr, TimeCreated, LastUpdated, Content, UserId" +
-							" FROM post WHERE TopicId = "+topicId)
-							.executeQuery();
+									" FROM post WHERE TopicId = "+topicId)
+									.executeQuery();
 
 			ArrayList<Post> list = new ArrayList<Post>();
 
@@ -109,27 +111,30 @@ public class DataManager {
 				}
 			}
 		}
-		
+
 	}
 
-	public static int checkLogin(String userName, String password) {
-		
+	public static ArrayList<Integer> checkLogin(String userName, String password) {
+
+		ArrayList<Integer> list = new ArrayList<Integer>();
 		Connection connection = null;
 		try {
 			connection = getConnection();
 			final ResultSet resultSet = connection
 					.prepareStatement(
-							"SELECT Rank" +
-							" FROM user WHERE Name = '"+userName+"' AND Password = '"+password+"'")
-							.executeQuery();
+							"SELECT Rank, id" +
+									" FROM user WHERE Name = '"+userName+"' AND Password = '"+password+"'")
+									.executeQuery();
 
 			if (resultSet.next()) {
-				return resultSet.getInt(1);
+				list.add(0, resultSet.getInt(1));
+				list.add(1, resultSet.getInt(2));
+				return list/*new int[] {resultSet.getInt(1), resultSet.getInt(2)}*/;
 			}
-			return -1;
+			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -2;
+			return null;
 		} finally {
 			if (connection != null) {
 				try {
@@ -139,10 +144,51 @@ public class DataManager {
 				}
 			}
 		}
-		
+
 	}
-	
-	
-	
-	
+
+	public static void addPostInTopic(String html, int topicId, int userId) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+
+			ResultSet resultSet = connection
+					.prepareStatement(
+							"SELECT MAX(PostNr)" +
+									" FROM post WHERE TopicId = "+topicId)
+									.executeQuery();
+			
+			int postNr = 1;
+			if(resultSet.next()){
+				postNr = resultSet.getInt(1)+1;
+			}
+
+			PreparedStatement stmt = connection
+					.prepareStatement("INSERT INTO post (PostNr, TimeCreated," +
+							" LastUpdated, Content, TopicId, UserId) " +
+							"VALUES (?,?,?,?,?,?)");
+
+			stmt.setInt(1, postNr);
+			stmt.setDate(2, new Date(System.currentTimeMillis()));
+			stmt.setDate(3, new Date(System.currentTimeMillis()));
+			stmt.setString(4, html);
+			stmt.setInt(5, topicId);
+			stmt.setInt(6, userId);
+			
+			stmt.executeUpdate();
+			
+			stmt = connection.prepareStatement(
+					"UPDATE user SET NrOfPosts = (NrOfPosts +1) WHERE id = "+userId);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+
 }

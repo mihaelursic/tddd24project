@@ -79,11 +79,11 @@ public class LoginPanel extends DecoratorPanel {
 		if(_instance == null){
 			_instance = new LoginPanel();
 		}
-//		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-//	        public void execute () {
-//	            _instance.userName.setFocus(true);
-//	        }
-//	   });
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+	        public void execute () {
+	            _instance.userName.setFocus(true);
+	        }
+	   });
 		return _instance;
 	}
 
@@ -94,7 +94,7 @@ public class LoginPanel extends DecoratorPanel {
 		}
 
 		// Set up the callback object.
-		AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
+		AsyncCallback<ArrayList<Integer>> callback = new AsyncCallback<ArrayList<Integer>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -102,11 +102,11 @@ public class LoginPanel extends DecoratorPanel {
 			}
 
 			@Override
-			public void onSuccess(Integer result) {
+			public void onSuccess(ArrayList<Integer> result) {
 
-				TDDD24Project.USER_RANK = result;
+				TDDD24Project.USER_RANK = result.get(0);
 
-				switch (result) {
+				switch (result.get(0)) {
 				case -1 :
 					TDDD24Project.USER_RANK = -1;
 					Window.alert("Login failed. Check your user name and password");
@@ -115,12 +115,14 @@ public class LoginPanel extends DecoratorPanel {
 					userName.setText("");
 					password.setText("");
 					TDDD24Project.USER_RANK = 1;
+					TDDD24Project.USER_ID = result.get(0);
 					History.newItem("TopicPage");
 					break;
 				case 2 :
 					userName.setText("");
 					password.setText("");
 					TDDD24Project.USER_RANK = 2;
+					TDDD24Project.USER_ID = result.get(0);
 					History.newItem("TopicPage");
 					break;
 				}

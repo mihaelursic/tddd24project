@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class TDDD24Project implements EntryPoint {
 
 	public static int USER_RANK = -1;
+	public static int USER_ID = -1;
 	
 	/**
 	 * This is the entry point method.
@@ -41,7 +42,7 @@ public class TDDD24Project implements EntryPoint {
 
 			@Override
 			public void execute() {
-				System.out.println("hej");			//TODO: Remove sysout
+				History.newItem("TopicPage");
 			}   	
 		};
 		mainMenu.addItem(new MenuItem("Startpage", startpageCommand));

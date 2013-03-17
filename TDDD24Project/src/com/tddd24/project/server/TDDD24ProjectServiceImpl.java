@@ -26,9 +26,18 @@ public class TDDD24ProjectServiceImpl extends RemoteServiceServlet implements TD
 	}
 
 	@Override
-	public int checkLogin(String userName, String password) {
+	public ArrayList<Integer> checkLogin(String userName, String password) {
 		return DataManager.checkLogin(userName, password);
 		
+	}
+
+	@Override
+	public boolean addPostInThread(String html, int topicId, int userId) {
+
+		DataManager.addPostInTopic(html, topicId, userId);
+		
+		
+		return false;
 	}
 	
 }
