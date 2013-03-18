@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginPanel extends DecoratorPanel {
@@ -116,6 +117,7 @@ public class LoginPanel extends DecoratorPanel {
 					password.setText("");
 					TDDD24Project.USER_RANK = 1;
 					TDDD24Project.USER_ID = result.get(0);
+					RootPanel.get("AdminPanel").add(AdminConsole.getInstance());
 					History.newItem("TopicPage");
 					break;
 				case 2 :

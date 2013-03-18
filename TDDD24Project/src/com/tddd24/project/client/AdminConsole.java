@@ -6,25 +6,27 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AdminConsole extends Composite {
 
-	private static TopicPage _instance = null;
-	private DecoratorPanel panel;
+	private static AdminConsole _instance = null;
+	private VerticalPanel panel;
 	private static TDDD24ProjectServiceAsync TDDD24ProjectSvc = GWT.create(TDDD24ProjectService.class);
+	
 	Label banUserLbl = new Label("Ban user with id for one week:");
 	final TextBox banUserTextBox = new TextBox();
 	final Button banUserBtn = new Button("Ban");
 	
-	Label rmvTopicLbl = new Label("Remove topic with topic id:");
-	final TextBox rmvTopicTextBox = new TextBox();
+	Label rmvTopicLbl = new Label("Remove current topic");
+//	final TextBox rmvTopicTextBox = new TextBox();
 	final Button rmvTopicBtn = new Button("Remove");
 	
 	
@@ -34,7 +36,7 @@ public class AdminConsole extends Composite {
 
 	public AdminConsole(){
 
-		panel = new DecoratorPanel();
+		panel = new VerticalPanel();
 		initWidget(panel);
 
 
@@ -46,11 +48,11 @@ public class AdminConsole extends Composite {
 					if(event.getSource().equals(banUserTextBox)){
 						banUser(Integer.parseInt(banUserTextBox.getText()));
 					}
-					else if(event.getSource().equals(rmvTopicTextBox)){
-						removeTopic(Integer.parseInt(rmvTopicTextBox.getText()));
-					}
+//					else if(event.getSource().equals(rmvTopicTextBox)){
+//						removeTopic(Integer.parseInt(rmvTopicTextBox.getText()));
+//					}
 					else if(event.getSource().equals(rmvPostTextBox)){
-						removePost(Integer.parseInt(rmvPostTextBox.getText()));
+						removePost(Thread.CURRENTLY_SHOWN_TOPIC, Integer.parseInt(rmvPostTextBox.getText()));
 					}
 				}
 			}
@@ -64,10 +66,11 @@ public class AdminConsole extends Composite {
 					banUser(Integer.parseInt(banUserTextBox.getText()));
 				}
 				else if(event.getSource().equals(rmvTopicBtn)){
-					removeTopic(Integer.parseInt(rmvTopicTextBox.getText()));
+//					removeTopic(Integer.parseInt(rmvTopicTextBox.getText()));
+					removeTopic(Thread.CURRENTLY_SHOWN_TOPIC);
 				}
 				else if(event.getSource().equals(rmvPostBtn)){
-					removePost(Integer.parseInt(rmvPostTextBox.getText()));
+					removePost(Thread.CURRENTLY_SHOWN_TOPIC, Integer.parseInt(rmvPostTextBox.getText()));
 				}
 
 			}
@@ -75,9 +78,13 @@ public class AdminConsole extends Composite {
 
 		banUserTextBox.addKeyPressHandler(keyHandler);
 
-		rmvTopicTextBox.addKeyPressHandler(keyHandler);
+//		rmvTopicTextBox.addKeyPressHandler(keyHandler);
 
 		rmvPostTextBox.addKeyPressHandler(keyHandler);
+		
+		banUserBtn.addClickHandler(clickHandler);
+		rmvPostBtn.addClickHandler(clickHandler);
+		rmvTopicBtn.addClickHandler(clickHandler);
 		
 		panel.add(banUserLbl);
 		panel.add(banUserTextBox);
@@ -88,7 +95,7 @@ public class AdminConsole extends Composite {
 		panel.add(rmvPostBtn);
 		
 		panel.add(rmvTopicLbl);
-		panel.add(rmvTopicTextBox);
+//		panel.add(rmvTopicTextBox);
 		panel.add(rmvTopicBtn);
 
 	}
@@ -113,6 +120,7 @@ public class AdminConsole extends Composite {
 			public void onSuccess(Void result) {
 				clearTextBoxes();
 				Window.alert("Topic removed");
+				History.newItem("TopicPage");
 			}
 
 		};
@@ -122,7 +130,7 @@ public class AdminConsole extends Composite {
 	}
 
 
-	private void removePost(int postId){
+	private void removePost(int topicId, int postNr){
 
 
 		// Initialize the service proxy.
@@ -148,7 +156,7 @@ public class AdminConsole extends Composite {
 
 		};
 
-		TDDD24ProjectSvc.removePost(postId, callback);
+		TDDD24ProjectSvc.removePost(topicId, postNr, callback);
 		
 	}
 
@@ -184,9 +192,16 @@ public class AdminConsole extends Composite {
 
 	protected void clearTextBoxes() {
 		rmvPostTextBox.setText("");
-		rmvTopicTextBox.setText("");
+//		rmvTopicTextBox.setText("");
 		banUserTextBox.setText("");
 		
+	}
+
+	public static AdminConsole getInstance() {
+		if(_instance == null){
+			_instance = new AdminConsole();
+		}
+		return _instance;
 	}
 
 }

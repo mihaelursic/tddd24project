@@ -182,6 +182,10 @@ public class DataManager {
 					"UPDATE user SET NrOfPosts = (NrOfPosts +1) WHERE id = "+userId);
 			stmt.executeUpdate();
 			
+			stmt = connection.prepareStatement(
+					"UPDATE topic SET NrOfPosts = (NrOfPosts +1) WHERE id = "+topicId);
+			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -193,7 +197,7 @@ public class DataManager {
 		try {
 			connection = getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"UPDATE user SET Banned = "+ new Date(System.currentTimeMillis()+604800000) +" WHERE id = "+ userId);
+					"UPDATE user SET Rank = -1 WHERE id = "+ userId);
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -201,12 +205,13 @@ public class DataManager {
 		}
 	}
 
-	public static void removePost(int PostNr){
+	public static void removePost(int topicId, int PostNr){
 		Connection connection = null;
 		try {
 			connection = getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"UPDATE post SET Content = '' WHERE PostNr = "+ PostNr);
+					"UPDATE post SET Content = '--- Post removed ---' " +
+					"WHERE (PostNr = "+ PostNr + " AND TopicId = "+topicId+")");
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -225,6 +230,40 @@ public class DataManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void addTopic(String subject, String content, int userId) {
+		
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"INSERT INTO topic (Subject, NrOfPosts, UserId, CategoryId) VALUES (?,?,?,?) ");
+			
+			stmt.setString(1, subject);
+			stmt.setInt(2, 0);
+			stmt.setInt(3, userId);
+			stmt.setInt(4, 1);
+			
+			stmt.executeUpdate();
+			
+			int topic = -1;
+			ResultSet set = connection.prepareStatement("SELECT LAST_INSERT_ID() FROM topic").executeQuery();
+			if(set.next()){
+				topic = set.getInt(1);
+				addPostInTopic(content, topic, userId);
+			}else{
+				throw new Exception();
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
+
+		}
+		
 	}
 
 }

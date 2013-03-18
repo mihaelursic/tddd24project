@@ -46,7 +46,16 @@ public class TDDD24Project implements EntryPoint {
 			}   	
 		};
 		mainMenu.addItem(new MenuItem("Startpage", startpageCommand));
-
+		
+		Command newTopicCommand = new Command() {
+			
+			@Override
+			public void execute() {
+				History.newItem("CreateTopic");
+				
+			}
+		};
+		mainMenu.addItem(new MenuItem("New topic", newTopicCommand));
 				
 		/** Create Login module ----------------------------------------------*//*
 		LoginPanel loginDecPanel = new LoginPanel();

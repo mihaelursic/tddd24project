@@ -83,7 +83,6 @@ public class Thread extends Composite {
 		Button postBtn = new Button("Post");
 		//Button saveBtn = new Button(); // TODO: Ska vi ha det???
 		Button cancelBtn = new Button("Cancel");
-		Button updateBtn = new Button("Update");
 
 		// Add listeners to buttons
 		postBtn.addClickHandler(new ClickHandler() {	
@@ -95,20 +94,14 @@ public class Thread extends Composite {
 		cancelBtn.addClickHandler(new ClickHandler() {	
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub	
+				textArea.setText("");
 			}
 		});
-		updateBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-			}
-		});
+
 
 		// Create button grid and add to editorGrid
 		Grid btnGrid = new Grid(1,3);
 		btnGrid.setWidget(0, 0, cancelBtn);
-		btnGrid.setWidget(0, 1, updateBtn);
 		btnGrid.setWidget(0, 2, postBtn);
 		editorGrid.setWidget(2, 0, btnGrid);
 
@@ -195,6 +188,9 @@ public class Thread extends Composite {
 			Grid mainGrid = new Grid(2,2);
 			Grid topBar = new Grid(1,3);
 			Grid userBar = new Grid(4,2);
+			
+			topBar.setStyleName("topBar");
+			userBar.setStyleName("userBar");
 
 			// Create components and fill topBar
 			Button reportBtn = new Button("Report");
@@ -205,21 +201,26 @@ public class Thread extends Composite {
 			topBar.setWidget(0, 2, qouteBtn);
 
 			// Create components and fill userBar
-			userBar.setWidget(0, 0, new Label(user.getName()));
-			userBar.setWidget(1, 0, new Label(""+user.getRank())); //TODO: Fixa ranksystem (enum?)
-			userBar.setWidget(2, 0, new Label(user.getNrOfPosts()+" posts"));
+			userBar.setWidget(0, 0, new Label("User: "+user.getName()));
+			userBar.setWidget(1, 0, new Label("Rank: "+user.getRank())); //TODO: Fixa ranksystem (enum?)
+			userBar.setWidget(2, 0, new Label("Posts: "+user.getNrOfPosts()));
 			userBar.setWidget(3, 0, new Label("Registered: "+user.getRegistered().toString()));
 
 			// Assemble mainGrid
 			Label timeLabel = new Label(post.getTimeCreated().toString());
+			timeLabel.setStyleName("topBar");
 			mainGrid.setWidget(0, 0, timeLabel);
 			mainGrid.setWidget(0, 1, topBar);
 			mainGrid.setWidget(1, 0, userBar);
 			mainGrid.setWidget(1, 1, new InlineHTML("<html>" + post.getContent() + 
 					"<br>Last edited " + post.getLastUpdated().toString() + "</html>"));
 
-
-			postList.setWidget(i, 0, mainGrid);
+			mainGrid.getWidget(1, 1).setStyleName("postContent");
+			DecoratorPanel panel = new DecoratorPanel();
+			
+			panel.add(mainGrid);
+			panel.setStyleName("postPanel");
+			postList.setWidget(i, 0, panel);
 		}
 
 	}

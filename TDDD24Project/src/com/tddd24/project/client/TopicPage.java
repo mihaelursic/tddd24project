@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -51,8 +52,8 @@ public class TopicPage extends Composite {
 
 		// Create Buttons on the bottom to change pages
 		Grid btnGrid = new Grid(1,3);
-		Button nextBtn = new Button();
-		Button prevBtn = new Button();
+//		Button nextBtn = new Button();
+//		Button prevBtn = new Button();
 
 		ClickHandler handler = new ClickHandler() {
 
@@ -64,11 +65,11 @@ public class TopicPage extends Composite {
 			}
 		};
 
-		nextBtn.addClickHandler(handler);
-		prevBtn.addClickHandler(handler);
-
-		btnGrid.setWidget(0, 0, prevBtn);
-		btnGrid.setWidget(0, 2, nextBtn);
+//		nextBtn.addClickHandler(handler);
+//		prevBtn.addClickHandler(handler);
+//
+//		btnGrid.setWidget(0, 0, prevBtn);
+//		btnGrid.setWidget(0, 2, nextBtn);
 
 		grid.setWidget(1, 0, btnGrid);
 
@@ -118,10 +119,11 @@ public class TopicPage extends Composite {
 			final Topic topic = topics.get(i);
 			
 			// Create grid
-			Grid mainGrid = new Grid(1,2);
+			Grid mainGrid = new Grid(1,3);
 			
 			// Create and add labels for info
 			Button subjectLabel = new Button(topic.getSubject());
+			subjectLabel.setStyleName("labelBtn");
 
 			subjectLabel.addClickHandler(new ClickHandler() {
 				
@@ -139,9 +141,19 @@ public class TopicPage extends Composite {
 			topicInfoGrid.setWidget(1, 0, new Label("Nr of posts in thread: "+topic.getNrOfposts()));
 			
 			mainGrid.setWidget(0, 1, topicInfoGrid);
+			mainGrid.setWidget(0, 2, new Label("#"+topic.getTopicId()));
 						
-			topicList.setWidget(i, 0, mainGrid);
-			topicList.setWidget(i, 1, new Label("#"+topic.getTopicId()));
+			topicInfoGrid.setStyleName("userBar");
+			topicInfoGrid.setWidth("500px");
+			
+			subjectLabel.setWidth("500px");
+			
+			DecoratorPanel panel = new DecoratorPanel();
+			panel.setStyleName("postPanel");
+			
+			panel.add(mainGrid);
+			
+			topicList.setWidget(i, 0, panel);
 		}
 
 	}

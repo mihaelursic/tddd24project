@@ -94,3 +94,58 @@ h1 {
 .gwt-MenuBar-vertical .subMenuIcon-selected {
   background: #E3E8F3;
 }
+
+.AdminPanel {
+	right: 5px;
+	float: right;
+	position:fixed; 
+    top:200px;
+    margin:0 auto;
+    background: rgba(192,192,192,0.8);
+    
+    border-radius: 5px;
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+.userBar {
+	background-color: #8BB381;
+	border: 1px solid #000000;
+	padding: 5px;
+}
+
+.topBar {
+
+
+}
+.postContent {
+	background-color: white;
+	display: block;
+	min-height: 100px;
+	min-width: 800px;
+	border: 1px solid #000000;
+	padding: 5px;
+}
+
+.postPanel {
+	background-color: #A0CFEC;
+	min-width: 1000px;
+	padding: 5px;
+	border: 1px solid #000000;
+}
+
+.labelBtn {
+    /* Remove all decorations */
+    border: none;
+    display: inline;
+    margin: 0em;
+    padding: 0em;
+    outline: none;
+    outline-offset: 0em;
+    /* Look like a link */
+    background: none;
+    color: black;
+    cursor: pointer;
+    font: inherit;
+    text-decoration: underline;
+}

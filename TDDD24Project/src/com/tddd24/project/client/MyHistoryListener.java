@@ -17,12 +17,6 @@ public class MyHistoryListener implements ValueChangeHandler<String> {
 			if(TDDD24Project.USER_RANK != -1){
 				RootPanel.get("Content").clear();
 				RootPanel.get("Content").add(TopicPage.getInstance());
-
-				if(TDDD24Project.USER_RANK == 1){
-//					RootPanel.get("Content").add(AdminPanel.getInstance()); TODO
-					RootPanel.get("Content").add(LoginPanel.getInstance());
-				}
-				
 			}
 			else{
 				History.newItem("Login");
@@ -35,6 +29,16 @@ public class MyHistoryListener implements ValueChangeHandler<String> {
 			}else{
 				RootPanel.get("Content").clear();
 				RootPanel.get("Content").add(Thread.getInstance());
+			}
+		}
+		else if(event.getValue().equals("CreateTopic")){	
+
+			if(TDDD24Project.USER_RANK != -1){
+			RootPanel.get("Content").clear();
+			RootPanel.get("Content").add(NewTopicPage.getInstance());
+			}
+			else{
+				History.newItem("Login");
 			}
 		}
 
